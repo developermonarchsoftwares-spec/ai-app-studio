@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CLINIC, HOURS } from "@/lib/clinic";
+import { CLINIC, FAQS, HOURS } from "@/lib/clinic";
 import { CtaButtons } from "@/components/site/Layout";
+import { PageHero } from "@/components/site/PageHero";
+import { FAQ } from "@/components/site/Home";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -18,20 +20,28 @@ export const Route = createFileRoute("/contact")({
 
 function Contact() {
   return (
-    <section className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:py-28 md:grid-cols-2">
-      <div>
-        <h1 className="text-4xl text-teal-deep md:text-5xl">Visit the clinic</h1>
-        <p className="mt-5 leading-relaxed">{CLINIC.address}</p>
-        <a href={CLINIC.maps} target="_blank" rel="noreferrer" className="mt-3 inline-block text-sm font-semibold text-primary">Open in Google Maps & see reviews →</a>
-        <h2 className="mt-10 text-2xl text-teal-deep">Opening hours</h2>
-        <ul className="mt-4 space-y-2">
-          {HOURS.map((h) => <li key={h.day} className="flex justify-between gap-4 border-b pb-2 text-sm"><span className="font-semibold">{h.day}</span><span className="text-muted-foreground">{h.time}</span></li>)}
-        </ul>
-        <p className="mt-2 text-xs text-muted-foreground">Hours to be confirmed. Please WhatsApp before visiting.</p>
-        <p className="mt-8 text-sm"><a href={CLINIC.tel} className="font-semibold">{CLINIC.phone}</a> · <a href={`mailto:${CLINIC.email}`}>{CLINIC.email}</a></p>
-        <div className="mt-6"><CtaButtons /></div>
-      </div>
-      <iframe title="Map to Dr. Ajay's Dental Centre" src={CLINIC.mapEmbed} loading="lazy" className="h-[420px] w-full rounded-[2rem] border shadow-soft md:h-full" />
-    </section>
+    <>
+      <PageHero script="Visit Us" title="Visit the clinic">
+        <p>{CLINIC.address}. Walk-ins are welcome; a quick WhatsApp before you come keeps your wait short.</p>
+        <div className="mt-8"><CtaButtons /></div>
+      </PageHero>
+      <section className="container-x section-y grid gap-16 lg:grid-cols-[1fr_1.4fr]">
+        <div>
+          <h2 className="caps text-[21px] text-ink">Opening hours</h2>
+          <ul className="mt-6">
+            {HOURS.map((h) => (
+              <li key={h.day} className="flex flex-col gap-1 border-b border-[var(--rule)] py-4 sm:flex-row sm:justify-between">
+                <span className="font-normal text-ink">{h.day}</span><span className="text-ink-soft">{h.time}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-[13px] text-ink-soft">Hours to be confirmed. Please WhatsApp before visiting.</p>
+        </div>
+        <div>
+          <h2 className="caps mb-6 text-[21px] text-ink">Common questions</h2>
+          <div className="[&>div]:md:!grid-cols-1"><FAQ items={FAQS} /></div>
+        </div>
+      </section>
+    </>
   );
 }

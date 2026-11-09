@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { streamResponse, GatewayError } from "@lovable.dev/ai-gateway";
+import OpenAI from "openai";
 import { CLINIC, HOURS, TREATMENTS, FAQS } from "@/lib/clinic";
 
 const SYSTEM = `You are the friendly front-desk assistant for ${CLINIC.name} in RS Puram, Coimbatore.
@@ -20,45 +20,73 @@ export const Route = createFileRoute("/api/public/chat")({
         try {
           const body = (await request.json()) as { messages?: Msg[] };
           messages = (body.messages ?? [])
-            .filter((m) => (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+            .filter(
+              (m) =>
+                (m.role === "user" || m.role === "assistant") &&
+                typeof m.content === "string",
+            )
             .slice(-20)
             .map((m) => ({ role: m.role, content: m.content.slice(0, 2000) }));
         } catch {
           return new Response("Bad request", { status: 400 });
         }
-        if (!messages.length || messages[messages.length - 1]?.role !== "user") {
+        if (
+          !messages.length ||
+          messages[messages.length - 1]?.role !== "user"
+        ) {
           return new Response("Bad request", { status: 400 });
         }
-        try {
-          const stream = await streamResponse({
-            model: "openai/gpt-6-astra",
-            instructions: SYSTEM,
-            input: messages.map((m) =>
-              m.role === "assistant"
-                ? { role: "assistant" as const, content: [{ type: "output_text" as const, text: m.content }] }
-                : { role: "user" as const, content: m.content },
-            ),
+
+        const apiKey = process.env["OPENAI_API_KEY"];
+        if (!apiKey) {
+          return new Response("AI assistant is not configured.", {
+            status: 503,
           });
+        }
+
+        try {
+          const client = new OpenAI({ apiKey });
+          const stream = await client.chat.completions.create({
+            model: "gpt-4o-mini",
+            stream: true,
+            max_tokens: 300,
+            messages: [
+              { role: "system", content: SYSTEM },
+              ...messages.map((m) => ({
+                role: m.role as "user" | "assistant",
+                content: m.content,
+              })),
+            ],
+          });
+
           const enc = new TextEncoder();
           const body = new ReadableStream<Uint8Array>({
             async start(controller) {
               try {
-                for await (const ev of stream) {
-                  const e = ev as { type?: string; delta?: string };
-                  if (e.type === "response.output_text.delta" && e.delta) controller.enqueue(enc.encode(e.delta));
+                for await (const chunk of stream) {
+                  const delta = chunk.choices[0]?.delta?.content;
+                  if (delta) controller.enqueue(enc.encode(delta));
                 }
               } catch (err) {
                 console.error("chat stream error", err);
-                controller.enqueue(enc.encode("\n\n_Sorry, I lost connection. Please call or WhatsApp us._"));
+                controller.enqueue(
+                  enc.encode(
+                    "\n\n_Sorry, I lost connection. Please call or WhatsApp us._",
+                  ),
+                );
               }
               controller.close();
             },
           });
-          return new Response(body, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+
+          return new Response(body, {
+            headers: { "Content-Type": "text/plain; charset=utf-8" },
+          });
         } catch (err) {
           console.error("chat error", err);
-          const status = err instanceof GatewayError && err.httpStatus ? err.httpStatus : 500;
-          return new Response("The assistant is unavailable right now.", { status });
+          return new Response("The assistant is unavailable right now.", {
+            status: 500,
+          });
         }
       },
     },

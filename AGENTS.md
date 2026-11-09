@@ -1,32 +1,32 @@
-<!-- LOVABLE:BEGIN -->
-> [!IMPORTANT]
-> This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
-> published git history — force pushing, or rebasing/amending/squashing commits
-> that are already pushed — as it rewrites history on Lovable's side and the
-> user will likely lose their project history.
->
-> Commits you push to the connected branch sync back to Lovable and show up in
-> the editor, so keep the branch in a working state.
+# Dr. Ajay's Dental Centre — Agent & Contributor Guide
 
-## What Lovable manages
+## Project conventions
 
-Rules outside this block are the project's own. Change the pieces below in
-Lovable, not by hand. With the [Lovable MCP](https://mcp.lovable.dev)
-connected, `send_message` asks Lovable to do it; otherwise ask the user to
-use the editor.
+- **Clinic facts** live in `src/lib/clinic.ts` and feed both the pages and the AI assistant prompt — never duplicate them.
+- **Styling** is done exclusively through Tailwind v4 utility classes and the CSS custom-property tokens in `src/styles.css`. Do not add ad-hoc inline styles.
+- **AI gateway** — the chat assistant calls `POST /api/public/chat` which streams from the OpenAI API server-side. The key is `OPENAI_API_KEY` in `.env.local`. Never expose this key in browser code.
+- **Secrets** — store in `.env.local` (gitignored). Never commit secret values.
 
-- **Database.** Do not add or edit `supabase/migrations/` or `drizzle/`.
-  Ask Lovable to change the schema.
-- **Generated files.** Do not edit a file whose header says it is automatically
-  generated.
-- **AI gateway.** Keep model calls on Lovable's gateway, and keep
-  `LOVABLE_API_KEY` out of browser code.
-- **Connectors.** Lovable provides native connectors. `list_connectors` shows
-  which are enabled; `add_connector` only returns the dashboard link. When a
-  connector is enabled, calls go through the connector gateway and need
-  `LOVABLE_API_KEY`. When Lovable does not provide one, users can bring their
-  own key and store it in Secrets.
-- **Secrets.** Lovable manages them. Do not put secret values in the repo.
-<!-- LOVABLE:END -->
-- Clinic facts live in src/lib/clinic.ts and feed both pages and the AI assistant prompt, so they never drift apart.
-- The website chat assistant streams through src/routes/api/public/chat.ts (public, no stored history) using the AI Gateway SDK.
+## File map
+
+| File | Purpose |
+|---|---|
+| `src/lib/clinic.ts` | Single source of truth: name, doctor, address, treatments, hours, FAQs |
+| `src/routes/index.tsx` | Home page |
+| `src/routes/treatments.tsx` | Treatments & indicative prices |
+| `src/routes/doctor.tsx` | Meet the doctor |
+| `src/routes/contact.tsx` | Location, map, hours |
+| `src/routes/api/public/chat.ts` | Streaming AI chat endpoint (OpenAI) |
+| `src/components/site/Layout.tsx` | Header, footer, CTA buttons, mobile sticky bar |
+| `src/components/site/ChatAssistant.tsx` | Smile Desk AI chat panel + FAB |
+| `src/styles.css` | Tailwind v4 `@theme` — all design tokens |
+
+## Dev commands
+
+```bash
+bun run dev      # start dev server
+bun run build    # production build
+bun run test     # run unit tests
+bun run lint     # ESLint
+bun run format   # Prettier
+```

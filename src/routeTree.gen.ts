@@ -12,7 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DoctorRouteImport } from './routes/doctor'
-import { Route as TreatmentsRouteImport } from './routes/treatments'
+import { Route as TreatmentsIndexRouteImport } from './routes/treatments.index'
+import { Route as TreatmentsSlugRouteImport } from './routes/treatments.$slug'
 import { Route as ApiPublicChatRouteImport } from './routes/api/public/chat'
 
 const IndexRoute = IndexRouteImport.update({
@@ -30,9 +31,14 @@ const DoctorRoute = DoctorRouteImport.update({
   path: '/doctor',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TreatmentsRoute = TreatmentsRouteImport.update({
-  id: '/treatments',
-  path: '/treatments',
+const TreatmentsIndexRoute = TreatmentsIndexRouteImport.update({
+  id: '/treatments/',
+  path: '/treatments/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TreatmentsSlugRoute = TreatmentsSlugRouteImport.update({
+  id: '/treatments/$slug',
+  path: '/treatments/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicChatRoute = ApiPublicChatRouteImport.update({
@@ -45,14 +51,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/doctor': typeof DoctorRoute
-  '/treatments': typeof TreatmentsRoute
+  '/treatments/$slug': typeof TreatmentsSlugRoute
+  '/treatments/': typeof TreatmentsIndexRoute
   '/api/public/chat': typeof ApiPublicChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/doctor': typeof DoctorRoute
-  '/treatments': typeof TreatmentsRoute
+  '/treatments/$slug': typeof TreatmentsSlugRoute
+  '/treatments': typeof TreatmentsIndexRoute
   '/api/public/chat': typeof ApiPublicChatRoute
 }
 export interface FileRoutesById {
@@ -60,20 +68,34 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/doctor': typeof DoctorRoute
-  '/treatments': typeof TreatmentsRoute
+  '/treatments/$slug': typeof TreatmentsSlugRoute
+  '/treatments/': typeof TreatmentsIndexRoute
   '/api/public/chat': typeof ApiPublicChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/doctor' | '/treatments' | '/api/public/chat'
+  fullPaths:
+    | '/'
+    | '/contact'
+    | '/doctor'
+    | '/treatments/$slug'
+    | '/treatments/'
+    | '/api/public/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/doctor' | '/treatments' | '/api/public/chat'
+  to:
+    | '/'
+    | '/contact'
+    | '/doctor'
+    | '/treatments/$slug'
+    | '/treatments'
+    | '/api/public/chat'
   id:
     | '__root__'
     | '/'
     | '/contact'
     | '/doctor'
-    | '/treatments'
+    | '/treatments/$slug'
+    | '/treatments/'
     | '/api/public/chat'
   fileRoutesById: FileRoutesById
 }
@@ -81,7 +103,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
   DoctorRoute: typeof DoctorRoute
-  TreatmentsRoute: typeof TreatmentsRoute
+  TreatmentsSlugRoute: typeof TreatmentsSlugRoute
+  TreatmentsIndexRoute: typeof TreatmentsIndexRoute
   ApiPublicChatRoute: typeof ApiPublicChatRoute
 }
 
@@ -108,11 +131,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoctorRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/treatments': {
-      id: '/treatments'
+    '/treatments/': {
+      id: '/treatments/'
       path: '/treatments'
-      fullPath: '/treatments'
-      preLoaderRoute: typeof TreatmentsRouteImport
+      fullPath: '/treatments/'
+      preLoaderRoute: typeof TreatmentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/treatments/$slug': {
+      id: '/treatments/$slug'
+      path: '/treatments/$slug'
+      fullPath: '/treatments/$slug'
+      preLoaderRoute: typeof TreatmentsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/chat': {
@@ -129,7 +159,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
   DoctorRoute: DoctorRoute,
-  TreatmentsRoute: TreatmentsRoute,
+  TreatmentsSlugRoute: TreatmentsSlugRoute,
+  TreatmentsIndexRoute: TreatmentsIndexRoute,
   ApiPublicChatRoute: ApiPublicChatRoute,
 }
 export const routeTree = rootRouteImport

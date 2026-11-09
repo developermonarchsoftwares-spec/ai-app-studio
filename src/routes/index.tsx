@@ -1,122 +1,220 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Star, ShieldCheck, Footprints, MapPin } from "lucide-react";
-import hero from "@/assets/smile-patient.jpg";
+import { Phone, MessageCircle, ArrowRight } from "lucide-react";
 import interior from "@/assets/clinic-interior.jpg";
-import { CLINIC, TREATMENTS, TESTIMONIALS, FAQS } from "@/lib/clinic";
-import { CtaButtons } from "@/components/site/Layout";
-import { Reveal, CountUp } from "@/components/site/Reveal";
+import smile from "@/assets/smile-patient.jpg";
+import { CLINIC, FAQS, TESTIMONIALS, TREATMENT_PAGES } from "@/lib/clinic";
+import { Reveal } from "@/components/site/Reveal";
+import { BookButton, Script, SectionTitle } from "@/components/site/Layout";
+import { Carousel, FAQ, Marquee, Parallax, ReviewSlider, RotatingWord, SpecialityTile, StatCard, TreatmentTabs } from "@/components/site/Home";
+
+const FAQ_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+};
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Dental Clinic RS Puram Coimbatore | Dr. Ajay's Dental Centre" },
-      { name: "description", content: "Rated 4.8 by 592 patients. Braces, aligners, root canals and implants at DB Road, RS Puram, Coimbatore. Walk-ins welcome. Book on WhatsApp." },
-      { property: "og:title", content: "Dr. Ajay's Dental Centre, RS Puram Coimbatore" },
-      { property: "og:description", content: "Orthodontist-led dental care on DB Road, RS Puram. 4.8★ from 592 Google reviews." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { title: "Dr. Ajay's Dental Centre | Orthodontist-led Dental Clinic, RS Puram Coimbatore" },
+      { name: "description", content: "Calm, personal dental care in RS Puram, Coimbatore, led by orthodontist Dr. Ajay Kumar N Sachdev (MDS). Braces, aligners, implants, root canals. 4.4★ from 49 Google reviews." },
+      { property: "og:title", content: "Dr. Ajay's Dental Centre, RS Puram, Coimbatore" },
+      { property: "og:description", content: "Orthodontist-led dental clinic. Clear pricing, on-time appointments." },
     ],
   }),
   component: Home,
 });
 
+const IMGS = [interior, smile];
+
+const WHY = [
+  "MDS Orthodontist-led",
+  "Clear Pricing Before Treatment",
+  "On-time Appointments",
+  "Walk-ins Welcome",
+  "Braces & Clear Aligners",
+  `${CLINIC.rating}★ on Google`,
+];
+
 function Home() {
   return (
     <>
-      <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-[1.1fr_0.9fr] md:py-28">
-        <Reveal>
-          <p className="mb-4 inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 text-xs font-semibold text-secondary"><MapPin className="size-3.5" /> DB Road, RS Puram · Walk-ins welcome</p>
-          <h1 className="text-4xl leading-[1.05] text-teal-deep md:text-6xl">Coimbatore's trusted smiles, <em className="text-primary">straightened</em> and cared for.</h1>
-          <p className="mt-5 max-w-lg text-lg text-muted-foreground">Led by orthodontist {CLINIC.doctor}, MDS. Honest advice, clear pricing, and treatment that respects your time.</p>
-          <div className="mt-8"><CtaButtons /></div>
-          <a href={CLINIC.maps} target="_blank" rel="noreferrer" className="mt-6 inline-flex items-center gap-2 text-sm text-muted-foreground"><span className="flex text-gold">{[...Array(5)].map((_, i) => <Star key={i} className="size-4 fill-current" />)}</span> {CLINIC.rating} from {CLINIC.reviews} Google reviews</a>
-        </Reveal>
-        <Reveal delay={150} className="relative">
-          <img src={hero} alt="Smiling patient after dental treatment at Dr. Ajay's Dental Centre" width={1008} height={1200} className="aspect-[4/5] w-full rounded-[2rem] object-cover shadow-soft" />
-          <div className="absolute -bottom-5 -left-4 rounded-2xl border bg-card p-4 shadow-card">
-            <p className="font-display text-3xl text-teal-deep"><CountUp to={CLINIC.rating} decimals={1} />★</p>
-            <p className="text-xs text-muted-foreground"><CountUp to={CLINIC.reviews} /> Google reviews</p>
-          </div>
-        </Reveal>
-      </section>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA) }} />
 
-      <section className="border-y bg-card">
-        <div className="mx-auto grid max-w-6xl gap-6 px-5 py-8 text-sm sm:grid-cols-3">
-          {[
-            [Star, `${CLINIC.rating}★ · ${CLINIC.reviews} patient reviews`],
-            [ShieldCheck, "MDS Orthodontist-led clinic"],
-            [Footprints, "Walk-in friendly, RS Puram"],
-          ].map(([Icon, t], i) => {
-            const I = Icon as typeof Star;
-            return <div key={i} className="flex items-center gap-3"><I className="size-5 text-primary" /><span className="font-semibold">{t as string}</span></div>;
-          })}
+      {/* B — Hero */}
+      <section className="relative flex h-[100svh] min-h-[620px] items-end overflow-hidden text-white">
+        <img src={interior} alt="" fetchPriority="high" className="hero-media absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-black/45" />
+        <div className="container-x relative pb-[14vh] text-center">
+          <span className="hero-in font-script block text-white" style={{ fontSize: "var(--fs-hero-script)" }} aria-hidden="true">Smiles</span>
+          <p className="hero-in caps mt-2" style={{ fontSize: "var(--fs-hero-strap)", animationDelay: ".15s" }}>Specialist dental care, without the rush</p>
+          <h1 className="hero-in mx-auto mt-5 max-w-xl text-[15px] font-light tracking-wide text-white/85" style={{ animationDelay: ".3s" }}>
+            Orthodontist-led dental clinic in RS Puram, Coimbatore
+          </h1>
+          <div className="hero-in mt-10 flex flex-wrap items-center justify-center gap-4" style={{ animationDelay: ".45s" }}>
+            <BookButton className="!bg-white !text-ink hover:!bg-mauve-strong hover:!text-white" />
+            <a href={CLINIC.tel} className="btn-ghost"><Phone className="size-4" /> {CLINIC.phone}</a>
+            <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" className="btn-ghost"><MessageCircle className="size-4" /> WhatsApp</a>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-24 md:py-32">
-        <Reveal><h2 className="text-3xl text-teal-deep md:text-4xl">Treatments we're known for</h2></Reveal>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {TREATMENTS.slice(0, 3).map((t, i) => (
-            <Reveal key={t.name} delay={i * 100}>
-              <div className="h-full rounded-3xl border bg-card p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft">
-                <h3 className="text-xl text-teal-deep">{t.name}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{t.desc}</p>
-                <p className="mt-4 text-sm font-semibold text-primary">{t.price}</p>
-                <p className="text-[11px] text-muted-foreground">Indicative, confirm at visit</p>
-              </div>
-            </Reveal>
+      {/* C — Trust stats */}
+      <section aria-label="At a glance" className="container-x pt-[var(--section-y)]">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { value: CLINIC.rating, decimals: 1, suffix: "★", label: "Google rating" },
+            { value: CLINIC.reviews, label: "Google reviews" },
+            { value: TREATMENT_PAGES.length, label: "Core treatments" },
+            { value: 1, label: "MDS orthodontist" },
+          ].map((s, i) => (
+            <Reveal key={s.label} delay={i * 100}><StatCard {...s} /></Reveal>
           ))}
         </div>
-        <div className="mt-8 flex flex-wrap items-center gap-6"><CtaButtons /><Link to="/treatments" className="text-sm font-semibold text-primary underline-offset-4 hover:underline">All treatments & prices →</Link></div>
       </section>
 
-      <section className="gold-hairline bg-teal-gradient text-primary-foreground">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-24 md:py-32 md:grid-cols-2">
-          <Reveal><img src={interior} alt="Treatment room at Dr. Ajay's Dental Centre, RS Puram" width={1600} height={1008} loading="lazy" className="rounded-[2rem] object-cover" /></Reveal>
-          <Reveal delay={120}>
-            <p className="text-sm uppercase tracking-widest text-gold-dark">Meet the doctor</p>
-            <h2 className="mt-3 text-3xl md:text-4xl">{CLINIC.doctor}</h2>
-            <p className="mt-2 opacity-80">{CLINIC.credentials}</p>
-            <p className="mt-5 opacity-90">As a specialist in orthodontics, Dr. Ajay plans every braces and aligner case himself, and takes the time to explain your options before anything begins.</p>
-            <Link to="/doctor" className="mt-6 inline-block font-semibold text-gold-dark">Read more →</Link>
+      {/* E — Intro */}
+      <section className="container-x section-y grid items-center gap-16 lg:grid-cols-[1fr_1.1fr]">
+        <Reveal>
+          <Script>Welcome</Script>
+          <h2 className="caps -mt-[0.4em] relative text-[clamp(30px,4vw,52px)] leading-[1.15] text-ink">Your smile.<br />Our specialist.</h2>
+          <div className="my-8 flex items-center gap-4"><span className="h-px w-16 bg-mauve" /><p className="sub-head">Personal care, planned by an orthodontist</p></div>
+          <p className="leading-7 text-ink-soft">Dr. Ajay founded the clinic to give RS Puram families specialist-level care without the rush. He personally plans braces and aligner treatment, and leads a team covering general, restorative and implant dentistry.</p>
+          <p className="mt-5 leading-7 text-ink-soft">Patients often mention the same thing in their reviews: he explains the options and costs clearly before starting, so there are no surprises.</p>
+          <Link to="/doctor" className="link-u mt-8 inline-flex items-center gap-2 font-normal text-mauve-strong">Meet Dr. Ajay <ArrowRight className="size-4" /></Link>
+        </Reveal>
+        <div className="grid grid-cols-3 gap-4">
+          <Parallax src={interior} alt="Treatment room at the clinic" className="mt-16 aspect-[9/16]" position="20% center" />
+          <Parallax src={smile} alt="A smiling patient after treatment" className="aspect-[9/16]" strength={60} />
+          <Parallax src={interior} alt="Clinic interior, RS Puram" className="mt-28 aspect-[9/16]" position="85% center" strength={30} />
+        </div>
+      </section>
+
+      {/* F — Our doctor */}
+      <section className="bg-surface-alt section-y">
+        <div className="container-x">
+          <Reveal><SectionTitle script="Meet" title="Your Doctor" /></Reveal>
+          <Reveal className="mt-14">
+            <div className="group relative grid overflow-hidden md:grid-cols-2">
+              <div className="relative aspect-[4/5] overflow-hidden md:aspect-auto">
+                <img src={interior} alt="Dr. Ajay's treatment room" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 flex items-end bg-white/30 p-8 opacity-0 backdrop-blur-md transition-opacity duration-500 group-hover:opacity-100">
+                  <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" className="btn">Book with Dr. Ajay</a>
+                </div>
+              </div>
+              <div className="bg-white p-10 md:p-16">
+                <p className="text-[13px] uppercase tracking-[0.25em] text-mauve-strong">Owner / Director</p>
+                <h3 className="caps mt-4 text-[clamp(26px,3vw,38px)] leading-tight text-ink">{CLINIC.doctor}</h3>
+                <p className="mt-3 font-normal text-ink-soft">MDS (Orthodontics)</p>
+                <p className="mt-8 leading-7 text-ink-soft">A specialist orthodontist who personally plans every braces and aligner case, and leads a team covering general, restorative and implant dentistry.</p>
+                <div className="mt-10 flex flex-wrap gap-4">
+                  <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" className="btn">Book with Dr. Ajay</a>
+                  <Link to="/doctor" className="link-u inline-flex items-center px-2 font-normal text-ink">Full profile</Link>
+                </div>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-24 md:py-32">
-        <Reveal><h2 className="text-3xl text-teal-deep md:text-4xl">What our patients say</h2></Reveal>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.name} delay={i * 100}>
-              <figure className="h-full rounded-3xl border bg-card p-6 shadow-card">
-                <div className="flex text-gold">{[...Array(5)].map((_, k) => <Star key={k} className="size-4 fill-current" />)}</div>
-                <blockquote className="mt-3 text-sm leading-relaxed">"{t.text}"</blockquote>
-                <figcaption className="mt-4 text-sm font-semibold">{t.name} <span className="font-normal text-muted-foreground">· {t.area}</span></figcaption>
-              </figure>
-            </Reveal>
-          ))}
+      {/* G — Treatments carousel */}
+      <section className="section-y overflow-hidden">
+        <div className="container-x flex flex-wrap items-end justify-between gap-8">
+          <Reveal><SectionTitle script="Discover" title="What We Treat" /></Reveal>
+          <Reveal><Link to="/treatments" className="btn">Explore All Treatments</Link></Reveal>
         </div>
-        <div className="mt-8 flex flex-wrap items-center gap-6"><CtaButtons /><a href={CLINIC.maps} target="_blank" rel="noreferrer" className="text-sm font-semibold text-primary">Read all {CLINIC.reviews} reviews on Google →</a></div>
+        <Reveal className="mt-14">
+          <Carousel label="Treatments">
+            {TREATMENT_PAGES.map((t, i) => (
+              <SpecialityTile key={t.slug} slug={t.slug} name={t.name} price={t.price} img={IMGS[i % 2]!} index={i} />
+            ))}
+          </Carousel>
+        </Reveal>
       </section>
 
-      <section className="mx-auto max-w-3xl px-5 pb-24 md:pb-32">
-        <Reveal><h2 className="text-3xl text-teal-deep">Questions patients ask</h2></Reveal>
-        <div className="mt-6 divide-y rounded-3xl border bg-card shadow-card">
-          {FAQS.map((f) => (
-            <details key={f.q} className="group p-5">
-              <summary className="cursor-pointer list-none font-semibold">{f.q}</summary>
-              <p className="mt-2 text-sm text-muted-foreground">{f.a}</p>
-            </details>
-          ))}
+      {/* H — Treatment details (tabbed) */}
+      <section className="container-x pb-[var(--section-y)]">
+        <div className="bg-[#f3f1f3] px-5 py-16 md:px-12 md:py-20">
+          <Reveal className="mx-auto mb-12 max-w-2xl text-center">
+            <h2 className="h2-sora">Clear plans, clear prices</h2>
+            <p className="mt-4 text-ink-soft">Every treatment is explained before we begin. These are indicative ranges; your exact cost is confirmed at your visit.</p>
+          </Reveal>
+          <Reveal><TreatmentTabs items={TREATMENT_PAGES.map((t, i) => ({ ...t, img: IMGS[i % 2]! }))} /></Reveal>
         </div>
-        <p className="mt-4 text-sm text-muted-foreground">Have another question? Tap <strong>Ask Smile Desk</strong>, our AI assistant, any time.</p>
       </section>
 
-      <section className="mx-auto mb-24 max-w-6xl px-5 md:mb-32">
-        <div className="gold-hairline rounded-[2rem] bg-teal-gradient px-8 py-16 md:py-20 text-center text-primary-foreground">
-          <h2 className="text-3xl md:text-4xl">Book your visit in under a minute</h2>
-          <p className="mx-auto mt-3 max-w-md opacity-85">Message us on WhatsApp with your preferred time. We'll confirm the slot.</p>
-          <div className="mt-8 flex justify-center"><CtaButtons light /></div>
+      {/* I — Reviews */}
+      <section className="bg-white pb-[var(--section-y)]">
+        <div className="container-x">
+          <Reveal className="mb-14 flex flex-wrap items-end justify-between gap-6">
+            <SectionTitle script="We're honoured" title="to look after you and your family" />
+            <a href={CLINIC.maps} target="_blank" rel="noreferrer" className="link-u text-[17px] font-normal text-mauve-strong">{CLINIC.reviews}+ reviews · {CLINIC.rating}★ on Google</a>
+          </Reveal>
+          <Reveal><ReviewSlider reviews={TESTIMONIALS} /></Reveal>
+        </div>
+      </section>
+
+      {/* J — Care approach (rotating word) */}
+      <section className="bg-surface-alt section-y">
+        <div className="container-x">
+          <Reveal>
+            <h2 className="h2-sora max-w-3xl">Treated <RotatingWord words={["Carefully", "Personally", "Patiently", "Honestly"]} /></h2>
+          </Reveal>
+          <div className="mt-14 divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
+            {TESTIMONIALS.map((t, i) => {
+              const tr = TREATMENT_PAGES.find((p) => p.name === t.treatment);
+              return (
+                <Reveal key={t.name} delay={i * 80}>
+                  <div className="grid items-center gap-6 py-10 md:grid-cols-[120px_1fr_auto] md:gap-12">
+                    <img src={IMGS[(i + 1) % 2]} alt="" loading="lazy" className="aspect-square w-24 object-cover md:w-[120px]" />
+                    <div>
+                      <h3 className="caps text-[19px] text-ink">{tr?.name ?? "Patient review"}</h3>
+                      <p className="mt-3 max-w-2xl leading-7 text-ink-soft">"{t.text}"</p>
+                      <p className="mt-3 text-[14px] text-ink-soft">{t.name}, {t.source}</p>
+                    </div>
+                    {tr
+                      ? <Link to="/treatments/$slug" params={{ slug: tr.slug }} className="btn self-start md:self-center">Explore</Link>
+                      : <Link to="/treatments" className="btn self-start md:self-center">All treatments</Link>}
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* K — Why us marquee + photo strip */}
+      <section aria-label="Why choose us">
+        <h2 className="sr-only">Why Us?</h2>
+        <Marquee items={WHY} />
+        <div className="relative h-[46vh] min-h-[320px]">
+          <img src={interior} alt="Inside Dr. Ajay's Dental Centre" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 grid place-items-center bg-black/35 text-center text-white">
+            <div>
+              <p className="caps text-[clamp(28px,4vw,48px)]">Dr. Ajay's</p>
+              <p className="mt-1 text-[12px] uppercase tracking-[0.5em]">Dental Centre</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* L — Final CTA */}
+      <section className="container-x section-y grid items-center gap-14 lg:grid-cols-2">
+        <Reveal>
+          <SectionTitle script="Ready" title="when you are" />
+          <p className="mt-8 max-w-md leading-7 text-ink-soft">Not sure which treatment you need? Message us. Dr. Ajay will assess you and suggest the right option honestly.</p>
+          <BookButton label="Book Your Consultation" className="mt-10" />
+        </Reveal>
+        <Reveal delay={120}>
+          <img src={smile} alt="A patient smiling after treatment" loading="lazy" className="aspect-[4/5] w-full object-cover" />
+        </Reveal>
+      </section>
+
+      {/* M — FAQ */}
+      <section className="bg-white pb-[var(--section-y)]">
+        <div className="container-x">
+          <Reveal className="mb-14"><SectionTitle script="Answered" title="Your Questions" align="center" /></Reveal>
+          <Reveal><FAQ items={FAQS} /></Reveal>
         </div>
       </section>
     </>
