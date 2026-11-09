@@ -64,15 +64,15 @@ export function ChatAssistant() {
       <button
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? "Close assistant" : "Ask our dental assistant"}
-        className="fixed bottom-24 right-4 z-50 flex items-center gap-2 rounded-full bg-teal-deep px-4 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 md:bottom-6 md:right-24"
+        className="fixed bottom-24 right-4 z-50 flex min-h-12 items-center gap-2 rounded-full bg-teal-gradient px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft ring-1 ring-gold-dark/30 transition hover:-translate-y-0.5 md:bottom-6 md:right-6"
       >
-        {open ? <X className="size-5" /> : <MessageCircleHeart className="size-5 text-gold" />}
+        {open ? <X className="size-5" /> : <MessageCircleHeart className="size-5 text-gold-dark" />}
         <span className="hidden sm:inline">{open ? "Close" : "Ask Smile Desk"}</span>
       </button>
       {open && (
-        <div className="fixed inset-x-3 bottom-40 z-50 flex h-[min(70vh,560px)] flex-col overflow-hidden rounded-3xl border bg-card shadow-soft md:inset-x-auto md:bottom-24 md:right-6 md:w-[400px]">
-          <div className="flex items-center gap-3 bg-teal-deep px-5 py-4 text-primary-foreground">
-            <div className="flex size-10 items-center justify-center rounded-full bg-gold font-display text-lg font-semibold text-teal-deep">A</div>
+        <div className="fixed inset-x-3 bottom-40 z-50 flex h-[min(70vh,560px)] flex-col overflow-hidden rounded-3xl border bg-card shadow-soft md:inset-x-auto md:bottom-24 md:right-6 md:w-[400px] shadow-card">
+          <div className="flex items-center gap-3 bg-teal-gradient px-5 py-4 text-primary-foreground">
+            <div className="flex size-10 items-center justify-center rounded-full bg-gold-dark font-display text-lg font-semibold text-teal-deep">A</div>
             <div>
               <p className="font-display text-lg leading-tight">Smile Desk</p>
               <p className="text-xs opacity-80">AI assistant · {CLINIC.name}</p>
@@ -109,7 +109,7 @@ export function ChatAssistant() {
             <PromptInput onSubmit={onSubmit}>
               <PromptInputTextarea ref={taRef} value={text} onChange={(e) => setText(e.target.value)} placeholder="Type your question…" />
               <PromptInputFooter className="justify-between">
-                <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" className="text-xs font-semibold text-whatsapp">Book on WhatsApp →</a>
+                <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" className="text-xs font-semibold text-secondary hover:underline">Book on WhatsApp →</a>
                 <PromptInputSubmit status={status === "error" ? "ready" : status} disabled={!text.trim() && status === "ready"} />
               </PromptInputFooter>
             </PromptInput>
