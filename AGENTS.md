@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+- Clinic facts live in src/lib/clinic.ts and feed both pages and the AI assistant prompt, so they never drift apart.
+- The website chat assistant streams through src/routes/api/public/chat.ts (public, no stored history) using the AI Gateway SDK.
