@@ -4,15 +4,29 @@ import { ArrowLeft, ArrowRight, Plus, Star } from "lucide-react";
 import { CountUp } from "./Reveal";
 
 /* ───────────── StatCard ───────────── */
-export function StatCard({ value, decimals = 0, suffix = "", label }: { value: number; decimals?: number; suffix?: string; label: string }) {
-  return (
-    <div className="flex aspect-square flex-col items-center justify-center bg-mauve p-6 text-center text-white">
-      <p className="font-extralight leading-none" style={{ fontSize: "var(--fs-stat)" }}>
+export function StatCard({ value, decimals = 0, suffix = "", label, hint, href, stars }: { value: number; decimals?: number; suffix?: string; label: string; hint?: string; href?: string; stars?: number }) {
+  const body = (
+    <>
+      <p className="text-4xl font-light leading-none transition-transform duration-300 group-hover:scale-105 sm:text-5xl">
         <CountUp to={value} decimals={decimals} />{suffix}
       </p>
-      <p className="mt-4 text-[17px] font-normal tracking-wide">{label}</p>
-    </div>
+      {stars !== undefined && (
+        <div className="mt-2 flex gap-0.5" aria-hidden="true">
+          {Array.from({ length: 5 }).map((_, s) => (
+            <Star key={s} className="size-3.5 text-white/90 transition-transform duration-300 group-hover:-translate-y-0.5" style={{ transitionDelay: `${s * 40}ms` }} fill={s < Math.round(stars) ? "currentColor" : "none"} />
+          ))}
+        </div>
+      )}
+      <p className="mt-2 text-[14px] font-normal tracking-wide sm:text-[15px]">{label}</p>
+      {hint && (
+        <p className="grid grid-rows-[0fr] text-[12px] text-white/80 opacity-0 transition-all duration-300 group-focus-visible:grid-rows-[1fr] group-focus-visible:opacity-100 group-hover:grid-rows-[1fr] group-hover:opacity-100">
+          <span className="overflow-hidden pt-1">{hint}{href ? " →" : ""}</span>
+        </p>
+      )}
+    </>
   );
+  const cls = "group flex min-h-28 flex-col items-center justify-center rounded-[10px] bg-mauve px-4 py-5 text-center text-white transition-all duration-300 hover:-translate-y-1 hover:bg-mauve-strong hover:shadow-lg focus-visible:-translate-y-1 focus-visible:bg-mauve-strong focus-visible:outline-none";
+  return href ? <a href={href} target="_blank" rel="noreferrer" className={cls}>{body}</a> : <div tabIndex={0} className={cls}>{body}</div>;
 }
 
 /* ───────────── Horizontal carousel (scroll-snap, no library) ───────────── */

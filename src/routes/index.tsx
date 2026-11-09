@@ -61,12 +61,12 @@ function Home() {
 
       {/* C — Trust stats */}
       <section aria-label="At a glance" className="container-x pt-[var(--section-y)]">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {[
-            { value: CLINIC.rating, decimals: 1, suffix: "★", label: "Google rating" },
-            { value: CLINIC.reviews, label: "Google reviews" },
-            { value: TREATMENT_PAGES.length, label: "Core treatments" },
-            { value: 1, label: "MDS orthodontist" },
+            { value: CLINIC.rating, decimals: 1, stars: CLINIC.rating, label: "Google rating", hint: "See it on Google", href: CLINIC.maps },
+            { value: CLINIC.reviews, label: "Google reviews", hint: "Read patient reviews", href: CLINIC.maps },
+            { value: TREATMENT_PAGES.length, label: "Core treatments", hint: "Braces, implants, root canals & more" },
+            { value: 1, label: "MDS orthodontist", hint: "Dr. Ajay Kumar N Sachdev" },
           ].map((s, i) => (
             <Reveal key={s.label} delay={i * 100}><StatCard {...s} /></Reveal>
           ))}
