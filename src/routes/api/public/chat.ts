@@ -26,7 +26,7 @@ export const Route = createFileRoute("/api/public/chat")({
         } catch {
           return new Response("Bad request", { status: 400 });
         }
-        if (!messages.length || messages[messages.length - 1].role !== "user") {
+        if (!messages.length || messages[messages.length - 1]?.role !== "user") {
           return new Response("Bad request", { status: 400 });
         }
         try {
