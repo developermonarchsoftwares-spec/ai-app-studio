@@ -27,7 +27,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
-        <Link to="/" className="font-display text-xl font-semibold text-teal-deep">Dr. Ajay's <span className="text-gold">Dental</span></Link>
+        <Link to="/" className="font-display text-2xl font-semibold text-teal-deep">Dr. Ajay's <span className="text-gold">Dental</span></Link>
         <nav className="hidden gap-6 text-sm md:flex">
           {NAV.map((n) => (
             <Link key={n.to} to={n.to} className="text-muted-foreground transition hover:text-primary" activeProps={{ className: "text-primary font-semibold" }} activeOptions={{ exact: true }}>{n.label}</Link>
@@ -77,14 +77,6 @@ export function MobileBar() {
       <a href={CLINIC.tel} className="flex items-center justify-center gap-2 rounded-full border border-border py-3 text-sm font-semibold text-primary"><Phone className="size-4" /> Call Now</a>
       <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-full bg-whatsapp py-3 text-sm font-semibold text-whatsapp-foreground"><MessageCircle className="size-4" /> WhatsApp</a>
     </div>
-  );
-}
-
-export function FloatingWhatsApp() {
-  return (
-    <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp" className="fixed bottom-6 right-6 z-50 hidden size-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-soft transition hover:scale-105 md:flex">
-      <MessageCircle className="size-7" />
-    </a>
   );
 }
 
