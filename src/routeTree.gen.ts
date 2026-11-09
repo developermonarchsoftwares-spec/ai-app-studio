@@ -10,11 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DoctorRouteImport } from './routes/doctor'
+import { Route as TreatmentsRouteImport } from './routes/treatments'
 import { Route as ApiPublicChatRouteImport } from './routes/api/public/chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorRoute = DoctorRouteImport.update({
+  id: '/doctor',
+  path: '/doctor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TreatmentsRoute = TreatmentsRouteImport.update({
+  id: '/treatments',
+  path: '/treatments',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicChatRoute = ApiPublicChatRouteImport.update({
@@ -25,27 +43,45 @@ const ApiPublicChatRoute = ApiPublicChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/doctor': typeof DoctorRoute
+  '/treatments': typeof TreatmentsRoute
   '/api/public/chat': typeof ApiPublicChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/doctor': typeof DoctorRoute
+  '/treatments': typeof TreatmentsRoute
   '/api/public/chat': typeof ApiPublicChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/doctor': typeof DoctorRoute
+  '/treatments': typeof TreatmentsRoute
   '/api/public/chat': typeof ApiPublicChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/public/chat'
+  fullPaths: '/' | '/contact' | '/doctor' | '/treatments' | '/api/public/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/public/chat'
-  id: '__root__' | '/' | '/api/public/chat'
+  to: '/' | '/contact' | '/doctor' | '/treatments' | '/api/public/chat'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact'
+    | '/doctor'
+    | '/treatments'
+    | '/api/public/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactRoute: typeof ContactRoute
+  DoctorRoute: typeof DoctorRoute
+  TreatmentsRoute: typeof TreatmentsRoute
   ApiPublicChatRoute: typeof ApiPublicChatRoute
 }
 
@@ -56,6 +92,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctor': {
+      id: '/doctor'
+      path: '/doctor'
+      fullPath: '/doctor'
+      preLoaderRoute: typeof DoctorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/treatments': {
+      id: '/treatments'
+      path: '/treatments'
+      fullPath: '/treatments'
+      preLoaderRoute: typeof TreatmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/chat': {
@@ -70,6 +127,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactRoute: ContactRoute,
+  DoctorRoute: DoctorRoute,
+  TreatmentsRoute: TreatmentsRoute,
   ApiPublicChatRoute: ApiPublicChatRoute,
 }
 export const routeTree = rootRouteImport
