@@ -12,6 +12,19 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SiteHeader, SiteFooter, SiteChrome } from "@/components/site/Layout";
+import { CLINIC } from "@/lib/clinic";
+
+const SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  name: CLINIC.name,
+  telephone: "+919843054225",
+  email: CLINIC.email,
+  address: { "@type": "PostalAddress", streetAddress: "581/1, 3rd Floor, Pinnacle Krishna Building, DB Road, RS Puram", addressLocality: "Coimbatore", addressRegion: "Tamil Nadu", addressCountry: "IN" },
+  aggregateRating: { "@type": "AggregateRating", ratingValue: CLINIC.rating, reviewCount: CLINIC.reviews },
+  employee: { "@type": "Person", name: CLINIC.doctor, jobTitle: CLINIC.credentials },
+};
 
 function NotFoundComponent() {
   return (
@@ -81,14 +94,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Dr. Ajay's Dental Centre | Dental Clinic RS Puram Coimbatore" },
+      { name: "description", content: "Dental clinic in RS Puram, Coimbatore led by orthodontist Dr. Ajay Kumar N Sachdev." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -96,6 +105,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Manrope:wght@400;500;600;700&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -109,6 +121,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }} />
       </head>
       <body>
         {children}
@@ -124,7 +137,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <SiteHeader />
+      <main>
+        <Outlet />
+      </main>
+      <SiteFooter />
+      <SiteChrome />
     </QueryClientProvider>
   );
 }
