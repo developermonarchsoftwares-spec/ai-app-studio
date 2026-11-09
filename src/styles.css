@@ -66,6 +66,7 @@
   --font-sans: "Manrope", system-ui, sans-serif;
   --color-teal-deep: var(--teal-deep);
   --color-gold: var(--gold);
+  --color-gold-dark: var(--gold-dark);
   --color-whatsapp: var(--whatsapp);
   --color-whatsapp-foreground: var(--whatsapp-foreground);
   --color-sidebar: var(--sidebar);
@@ -80,30 +81,29 @@
 
 :root {
   --radius: 1rem;
-  --background: oklch(0.975 0.012 85);
-  --foreground: oklch(0.24 0.035 200);
-  --card: oklch(0.993 0.006 85);
-  --card-foreground: oklch(0.24 0.035 200);
-  --popover: oklch(0.993 0.006 85);
-  --popover-foreground: oklch(0.24 0.035 200);
-  --primary: oklch(0.42 0.075 195);
-  --primary-foreground: oklch(0.98 0.01 85);
-  --secondary: oklch(0.93 0.025 160);
-  --secondary-foreground: oklch(0.28 0.05 195);
-  --muted: oklch(0.945 0.015 85);
-  --muted-foreground: oklch(0.48 0.03 200);
+  --background: oklch(0.977 0.007 80.7);
+  --foreground: oklch(0.263 0.029 199.2);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.263 0.029 199.2);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.263 0.029 199.2);
+  --primary: oklch(0.322 0.049 197.1);
+  --primary-foreground: oklch(0.985 0.005 80);
+  --secondary: oklch(0.494 0.075 190.1);
+  --secondary-foreground: oklch(0.99 0.004 80);
+  --muted: oklch(0.955 0.01 80);
+  --muted-foreground: oklch(0.515 0.019 196.6);
   --accent: oklch(0.9 0.05 80);
   --accent-foreground: oklch(0.3 0.05 60);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.89 0.018 85);
-  --input: oklch(0.89 0.018 85);
-  --ring: oklch(0.42 0.075 195);
-  --teal-deep: oklch(0.27 0.05 200);
-  --gold: oklch(0.74 0.12 75);
-  --whatsapp: oklch(0.62 0.15 150);
+  --border: oklch(0.912 0.018 81.3);
+  --input: oklch(0.912 0.018 81.3);
+  --ring: oklch(0.494 0.075 190.1);
+  --teal-deep: oklch(0.322 0.049 197.1);
+  --gold: oklch(0.613 0.107 79.6);
+  --whatsapp: oklch(0.530 0.116 156.4);
   --whatsapp-foreground: oklch(0.99 0 0);
-  --shadow-soft: 0 20px 50px -25px color-mix(in oklab, var(--teal-deep) 35%, transparent);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -117,6 +117,10 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --gold-dark: oklch(0.774 0.098 83.0);
+  --shadow-soft: 0 24px 60px -32px color-mix(in oklab, var(--primary) 30%, transparent);
+  --shadow-card: 0 1px 2px color-mix(in oklab, var(--primary) 4%, transparent), 0 12px 32px -20px color-mix(in oklab, var(--primary) 18%, transparent);
+  --gradient-teal: linear-gradient(160deg, oklch(0.35 0.052 195) 0%, oklch(0.29 0.045 199) 55%, oklch(0.25 0.04 205) 100%);
 }
 
 .dark {
@@ -180,3 +184,6 @@
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+@utility shadow-card { box-shadow: var(--shadow-card); }
+@utility bg-teal-gradient { background-image: var(--gradient-teal); }
+@utility gold-hairline { border-top: 1px solid color-mix(in oklab, var(--gold-dark) 45%, transparent); }

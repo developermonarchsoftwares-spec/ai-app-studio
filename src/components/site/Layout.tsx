@@ -9,7 +9,7 @@ export function CtaButtons({ light = false }: { light?: boolean }) {
       <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-6 py-3 font-semibold text-whatsapp-foreground shadow-soft transition hover:-translate-y-0.5">
         <MessageCircle className="size-5" /> Book on WhatsApp
       </a>
-      <a href={CLINIC.tel} className={`inline-flex items-center gap-2 rounded-full border px-6 py-3 font-semibold transition hover:-translate-y-0.5 ${light ? "border-primary-foreground/40 text-primary-foreground" : "border-primary text-primary"}`}>
+      <a href={CLINIC.tel} className={`inline-flex items-center gap-2 rounded-full border px-6 py-3 font-semibold transition ${light ? "border-primary-foreground/30 text-primary-foreground hover:border-gold-dark hover:text-gold-dark" : "border-border text-primary hover:border-primary"}`}>
         <Phone className="size-5" /> Call Now
       </a>
     </div>
@@ -34,8 +34,8 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="hidden gap-2 md:flex">
-          <a href={CLINIC.tel} className="rounded-full border border-primary px-4 py-2 text-sm font-semibold text-primary">Call</a>
-          <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" className="rounded-full bg-whatsapp px-4 py-2 text-sm font-semibold text-whatsapp-foreground">Book on WhatsApp</a>
+          <a href={CLINIC.tel} className="px-3 py-2 text-sm font-medium text-primary hover:underline underline-offset-4">Call</a>
+          <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" className="rounded-full border border-primary px-4 py-2 text-sm font-medium text-primary transition hover:bg-primary hover:text-primary-foreground">Book on WhatsApp</a>
         </div>
       </div>
       <nav className="flex gap-5 overflow-x-auto px-5 pb-2 text-sm md:hidden">
@@ -49,12 +49,12 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="bg-teal-deep pb-28 pt-16 text-primary-foreground md:pb-12">
+    <footer className="gold-hairline bg-teal-gradient pb-28 pt-20 text-primary-foreground md:pb-12">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 md:grid-cols-3">
         <div>
           <p className="font-display text-2xl">{CLINIC.name}</p>
           <p className="mt-3 text-sm opacity-80">{CLINIC.address}</p>
-          <a href={CLINIC.maps} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1 text-sm text-gold"><Star className="size-4 fill-current" /> {CLINIC.rating} on Google · {CLINIC.reviews} reviews</a>
+          <a href={CLINIC.maps} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1 text-sm text-gold-dark"><Star className="size-4 fill-current" /> {CLINIC.rating} on Google · {CLINIC.reviews} reviews</a>
         </div>
         <div className="space-y-2 text-sm">
           <p className="font-semibold">Contact</p>
@@ -74,7 +74,7 @@ export function SiteFooter() {
 export function MobileBar() {
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t bg-background/95 p-3 backdrop-blur md:hidden">
-      <a href={CLINIC.tel} className="flex items-center justify-center gap-2 rounded-full border border-primary py-3 text-sm font-semibold text-primary"><Phone className="size-4" /> Call Now</a>
+      <a href={CLINIC.tel} className="flex items-center justify-center gap-2 rounded-full border border-border py-3 text-sm font-semibold text-primary"><Phone className="size-4" /> Call Now</a>
       <a href={CLINIC.whatsapp} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-full bg-whatsapp py-3 text-sm font-semibold text-whatsapp-foreground"><MessageCircle className="size-4" /> WhatsApp</a>
     </div>
   );
@@ -89,5 +89,5 @@ export function FloatingWhatsApp() {
 }
 
 export function SiteChrome() {
-  return (<><MobileBar /><FloatingWhatsApp /><ChatAssistant /></>);
+  return (<><MobileBar /><ChatAssistant /></>);
 }

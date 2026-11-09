@@ -19,7 +19,7 @@ export const Route = createFileRoute("/doctor")({
 
 function Doctor() {
   return (
-    <section className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2">
+    <section className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:py-28 md:grid-cols-2">
       <img src={interior} alt="Clinic treatment room, RS Puram" width={1600} height={1008} className="rounded-[2rem] object-cover shadow-soft" />
       <div>
         <p className="text-sm uppercase tracking-widest text-primary">Owner / Director</p>
