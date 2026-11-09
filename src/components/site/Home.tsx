@@ -25,7 +25,7 @@ export function StatCard({ value, decimals = 0, suffix = "", label, hint, href, 
       )}
     </>
   );
-  const cls = "group flex min-h-28 flex-col items-center justify-center rounded-[10px] bg-mauve px-4 py-5 text-center text-white transition-all duration-300 hover:-translate-y-1 hover:bg-mauve-strong hover:shadow-lg focus-visible:-translate-y-1 focus-visible:bg-mauve-strong focus-visible:outline-none";
+  const cls = "group flex h-36 w-full flex-col items-center justify-center rounded-[10px] bg-mauve px-4 py-5 text-center text-white transition-all duration-300 hover:-translate-y-1 hover:bg-mauve-strong hover:shadow-lg focus-visible:-translate-y-1 focus-visible:bg-mauve-strong focus-visible:outline-none";
   return href ? <a href={href} target="_blank" rel="noreferrer" className={cls}>{body}</a> : <div tabIndex={0} className={cls}>{body}</div>;
 }
 

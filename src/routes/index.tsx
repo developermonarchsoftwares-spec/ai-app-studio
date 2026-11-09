@@ -68,7 +68,7 @@ function Home() {
             { value: TREATMENT_PAGES.length, label: "Core treatments", hint: "Braces, implants, root canals & more" },
             { value: 1, label: "MDS orthodontist", hint: "Dr. Ajay Kumar N Sachdev" },
           ].map((s, i) => (
-            <Reveal key={s.label} delay={i * 100}><StatCard {...s} /></Reveal>
+            <Reveal key={s.label} delay={i * 100} className="h-full"><StatCard {...s} /></Reveal>
           ))}
         </div>
       </section>
