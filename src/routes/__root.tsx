@@ -21,7 +21,7 @@ const SCHEMA = {
   url: "/",
   hasMap: CLINIC.maps,
   name: CLINIC.name,
-  telephone: "+919843054225",
+  telephone: "+919363104325",
   email: CLINIC.email,
   address: { "@type": "PostalAddress", streetAddress: "581/1, 3rd Floor, Pinnacle Krishna Building, DB Road, RS Puram", addressLocality: "Coimbatore", addressRegion: "Tamil Nadu", addressCountry: "IN" },
   aggregateRating: { "@type": "AggregateRating", ratingValue: CLINIC.rating, reviewCount: CLINIC.reviews },

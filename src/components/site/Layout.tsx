@@ -167,7 +167,7 @@ function ContactForm() {
         const f = new FormData(e.currentTarget);
         if (f.get("company")) return; // honeypot
         const msg = `Hello ${CLINIC.name}, I'm ${f.get("name")}. I'd like to book an appointment. Please call me on ${f.get("phone")}.`;
-        window.open(`https://wa.me/919843054225?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+        window.open(`https://wa.me/919363104325?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
         setSent(true);
       }}
     >
